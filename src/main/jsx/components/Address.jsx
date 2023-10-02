@@ -1,38 +1,76 @@
 import React, { Component } from "react";
 import SendAddress from "api/send-address";
+import DaumPostcode from "react-daum-postcode";
 
 class Address extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      startPoint: "",
-      endPoint: "",
+      startAddress: "",
+      endAddress: "",
+      additionStartAddress: "",
+      additionEndAddress: "",
       name: "",
       phone: "",
       item: "",
+      openPostcodeStart: false,
+      openPostcodeEnd: false,
     };
   }
 
   /**
-   * handleInputChange 메서드는 input 필드의 값이 변경될 때마다 호출되어 state를 업데이트합니다.
-   * @param {Event} e - 발생한 이벤트 객체
+   * 입력 필드 값이 변경될 때 호출되는 함수.
+   * @param {Event} event - 입력 필드 변경 이벤트
    */
-  handleInputChange = (e) => {
-    const { name, value } = e.target;
+  handleInputChange = (event) => {
+    const { name, value } = event.target;
     this.setState({ [name]: value });
   };
 
   /**
-   * handleSubmit 메서드는 '전송' 버튼이 클릭될 때 호출되어 실제로 데이터를 전송하는 로직을 수행합니다.
+   * Daum 우편번호 서비스 팝업을 열거나 닫는 함수.
+   * @param {string} type - 팝업의 종류 ("start" 또는 "end")
+   */
+  togglePostcode = (type) => {
+    if (type === "start") {
+      this.setState({ openPostcodeStart: !this.state.openPostcodeStart });
+    } else if (type === "end") {
+      this.setState({ openPostcodeEnd: !this.state.openPostcodeEnd });
+    }
+  };
+
+  /**
+   * 선택한 주소를 상태에 저장하는 함수.
+   * @param {object} data - 선택한 주소 데이터
+   * @param {string} type - 주소의 종류 ("start" 또는 "end")
+   */
+  fillAddress = (data, type) => {
+    if (type === "start") {
+      this.setState({ startAddress: data.address, openPostcodeStart: false });
+    } else if (type === "end") {
+      this.setState({ endAddress: data.address, openPostcodeEnd: false });
+    }
+  };
+
+  /**
+   * '전송' 버튼 클릭 시 데이터를 서버로 전송하는 함수.
    */
   handleSubmit = async () => {
-    const { startPoint, endPoint, name, phone, item } = this.state;
+    const {
+      startAddress,
+      additionStartAddress,
+      additionEndAddress,
+      endAddress,
+      name,
+      phone,
+      item,
+    } = this.state;
 
     try {
-      // Address 클래스의 sendAddress 메서드를 사용하여 데이터를 전송합니다.
+      // 주소 데이터와 사용자 정보를 서버로 전송
       const response = await SendAddress.send(
-        startPoint,
-        endPoint,
+        startAddress + " " + additionStartAddress,
+        endAddress + " " + additionEndAddress,
         name,
         phone,
         item
@@ -48,51 +86,42 @@ class Address extends Component {
       <div className="address-component">
         <div className="title">배송 추적 서비스</div>
         <div className="input-container">
-          <input
-            type="text"
-            name="startPoint"
-            placeholder="출발지"
-            value={this.state.startPoint}
-            onChange={this.handleInputChange}
-            className="input-field"
-          />
-          <input
-            type="text"
-            name="endPoint"
-            placeholder="도착지"
-            value={this.state.endPoint}
-            onChange={this.handleInputChange}
-            className="input-field"
-          />
-          <input
-            type="text"
-            name="name"
-            placeholder="이름"
-            value={this.state.name}
-            onChange={this.handleInputChange}
-            className="input-field"
-          />
-          <input
-            type="text"
-            name="phone"
-            placeholder="전화번호"
-            value={this.state.phone}
-            onChange={this.handleInputChange}
-            className="input-field"
-          />
-          <select
-            name="item"
-            value={this.state.item}
-            onChange={this.handleInputChange}
-            className="input-field"
-          >
+          <input className="input-field" type="text" name="startAddress" placeholder="출발지" 
+            value={this.state.startAddress} onChange={this.handleInputChange}/>
+          <button className="daum-button" onClick={() => this.togglePostcode("start")}>주소찾기</button>
+          <br />
+          {this.state.openPostcodeStart && (
+            <div className="postcode-popup">
+              <DaumPostcode onComplete={(data) => this.fillAddress(data, "start")} autoClose={true}/>
+            </div>
+          )}
+          <input className="input-field" type="text" name="additionStartAddress" placeholder="추가 출발지"
+            value={this.state.additionStartAddress} onChange={this.handleInputChange}/>
+          <br />
+          <input className="input-field" type="text" name="endAddress" placeholder="도착지"
+            value={this.state.endAddress} onChange={this.handleInputChange}/>
+          <button className="daum-button" onClick={() => this.togglePostcode("end")}>주소찾기</button><br />
+          {this.state.openPostcodeEnd && (
+            <div className="postcode-popup">
+              <DaumPostcode onComplete={(data) => this.fillAddress(data, "end")} autoClose={true}/>
+            </div>
+          )}
+          <input className="input-field" type="text" name="additionEndAddress" placeholder="추가 도착지"
+            value={this.state.additionEndAddress} onChange={this.handleInputChange}/>
+          <br />
+          <input className="input-field" type="text" name="name" placeholder="이름"
+            value={this.state.name} onChange={this.handleInputChange}/>
+          <br />
+          <input className="input-field" type="text" name="phone" placeholder="전화번호"
+            value={this.state.phone} onChange={this.handleInputChange}/>
+          <br />
+          <select className="input-field" name="item" value={this.state.item} onChange={this.handleInputChange}>
             <option value="">품목 선택</option>
             <option value="냉동">냉동</option>
             <option value="냉장">냉장</option>
           </select>
-          <button onClick={this.handleSubmit} className="submit-button">
-            전송
-          </button>
+          <br />
+          <button onClick={this.handleSubmit} className="submit-button">전송</button>
         </div>
       </div>
     );

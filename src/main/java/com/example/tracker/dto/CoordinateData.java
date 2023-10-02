@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CoordinateData {
-    private String startCoordinate;
-    private String endCoordinate;
+    private String startAddress;
+    private String endAddress;
     private String name;
     private String phone;
     private String item;

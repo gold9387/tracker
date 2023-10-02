@@ -15,8 +15,8 @@ public class CoordinateController {
     
     @PostMapping("/address")
     public ResponseEntity<String> receiveCoordinates(@RequestBody CoordinateData coordinateData) {
-        System.out.println("Start Coordinate: " + coordinateData.getStartCoordinate());
-        System.out.println("End Coordinate: " + coordinateData.getEndCoordinate());
+        System.out.println("Start Coordinate: " + coordinateData.getStartAddress());
+        System.out.println("End Coordinate: " + coordinateData.getEndAddress());
         System.out.println("Name: " + coordinateData.getName());
         System.out.println("Phone: " + coordinateData.getPhone());
         System.out.println("Item: " + coordinateData.getItem());

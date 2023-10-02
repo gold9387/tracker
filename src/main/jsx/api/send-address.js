@@ -1,20 +1,26 @@
 import axios from "axios";
 
+/**
+ * SendAddress 클래스는 주소 정보를 서버로 전송합니다.
+ */
 export default class SendAddress {
   /**
-   * sendAddress 메소드는 주어진 시작점과 도착점 좌표를 백엔드 서버로 전송합니다.
-   * @param {string} startCoordinate - 시작점의 좌표
-   * @param {string} endCoordinate - 도착점의 좌표
-   * @returns {Promise} 서버 응답을 담은 프로미스 객체를 반환합니다.
+   * send 메서드는 주소 정보를 서버로 전송합니다.
+   * @param {string} startAddress - 시작점의 주소
+   * @param {string} endAddress - 도착점의 주소
+   * @param {string} name - 이름
+   * @param {string} phone - 전화번호
+   * @param {string} item - 물품
+   * @returns {Promise} - 서버 응답을 담은 프로미스 객체
    */
-  static async send(startPoint, endPoint, name, phone, item) {
+  static async send(startAddress, endAddress, name, phone, item) {
     try {
       const response = await axios.post("http://localhost:9000/api/address", {
-        startCoordinate: startPoint,
-        endCoordinate: endPoint,
-        name: name,
-        phone: phone,
-        item: item,
+        startAddress,
+        endAddress,
+        name,
+        phone,
+        item,
       });
       return response.data;
     } catch (error) {
