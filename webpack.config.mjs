@@ -23,6 +23,7 @@ export default {
     extensions: [".js", ".jsx"],
     alias: {
       components: resolve(__dirname, "src/main/jsx/components/"),
+      api: resolve(__dirname, "src/main/jsx/api/")
     },
   },
 
