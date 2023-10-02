@@ -17,6 +17,9 @@ public class CoordinateController {
     public ResponseEntity<String> receiveCoordinates(@RequestBody CoordinateData coordinateData) {
         System.out.println("Start Coordinate: " + coordinateData.getStartCoordinate());
         System.out.println("End Coordinate: " + coordinateData.getEndCoordinate());
+        System.out.println("Name: " + coordinateData.getName());
+        System.out.println("Phone: " + coordinateData.getPhone());
+        System.out.println("Item: " + coordinateData.getItem());
         return new ResponseEntity<>("Coordinates received successfully", HttpStatus.OK);
     }
 }

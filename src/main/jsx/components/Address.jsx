@@ -5,8 +5,11 @@ class Address extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      startPoint: "", // 시작점 주소를 저장할 state
-      endPoint: "", // 도착점 주소를 저장할 state
+      startPoint: "",
+      endPoint: "",
+      name: "",
+      phone: "",
+      item: "",
     };
   }
 
@@ -23,11 +26,17 @@ class Address extends Component {
    * handleSubmit 메서드는 '전송' 버튼이 클릭될 때 호출되어 실제로 데이터를 전송하는 로직을 수행합니다.
    */
   handleSubmit = async () => {
-    const { startPoint, endPoint } = this.state;
+    const { startPoint, endPoint, name, phone, item } = this.state;
 
     try {
       // Address 클래스의 sendAddress 메서드를 사용하여 데이터를 전송합니다.
-      const response = await SendAddress.send(startPoint, endPoint);
+      const response = await SendAddress.send(
+        startPoint,
+        endPoint,
+        name,
+        phone,
+        item
+      );
       console.log("서버로부터의 응답:", response);
     } catch (error) {
       console.error("데이터를 전송하는 중에 오류가 발생했습니다:", error);
@@ -55,6 +64,32 @@ class Address extends Component {
             onChange={this.handleInputChange}
             className="input-field"
           />
+          <input
+            type="text"
+            name="name"
+            placeholder="이름"
+            value={this.state.name}
+            onChange={this.handleInputChange}
+            className="input-field"
+          />
+          <input
+            type="text"
+            name="phone"
+            placeholder="전화번호"
+            value={this.state.phone}
+            onChange={this.handleInputChange}
+            className="input-field"
+          />
+          <select
+            name="item"
+            value={this.state.item}
+            onChange={this.handleInputChange}
+            className="input-field"
+          >
+            <option value="">품목 선택</option>
+            <option value="냉동">냉동</option>
+            <option value="냉장">냉장</option>
+          </select>
           <button onClick={this.handleSubmit} className="submit-button">
             전송
           </button>

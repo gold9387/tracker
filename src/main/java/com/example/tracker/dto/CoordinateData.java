@@ -12,4 +12,7 @@ import lombok.NoArgsConstructor;
 public class CoordinateData {
     private String startCoordinate;
     private String endCoordinate;
+    private String name;
+    private String phone;
+    private String item;
 }
