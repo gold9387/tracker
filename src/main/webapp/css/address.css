@@ -1,47 +1,86 @@
+:root {
+  --main-bg: #a5beb0; 
+  --text-color: #f8e6ce; 
+  --border-color: #ebc8b4;
+  --secondary-bg: #fdb3a4;
+}
 
-
-.postcode-popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1000;
-  background: white;
-  border: 1px solid #ccc;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  max-width: 80%;
-  width: 400px;
+/* 모든 요소에 대한 기본 설정 */
+* {
+  background-color: var(--main-bg);
   box-sizing: border-box;
-  overflow: auto;
 }
 
-/* 반응형 스타일링 */
-@media screen and (max-width: 480px) {
-  .address-component {
-    padding: 10px;
-    border-radius: 0;
-    box-shadow: none;
-    max-width: 100%;
-  }
-
-  .title {
-    font-size: 20px;
-    margin-bottom: 10px;
-  }
-
-  .input-field {
-    max-width: 100%;
-    font-size: 14px;
-  }
-
-  .daum-button,
-  .submit-button {
-    font-size: 14px;
-  }
-
-  .postcode-popup {
-    max-width: 100%;
-    width: 100%;
-  }
+/* 전체 컴포넌트 설정 */
+.address-component {
+  color: var(--text-color);
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 500px;
+  margin: 20px auto;
+  text-align: center;
+  overflow: hidden; 
 }
+
+/* 제목 설정 */
+.title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* 입력 필드 설정 */
+.input-field {
+  background-color: var(--text-color);
+  border: 3px solid var(--border-color);
+  border-radius: 4px;
+  padding: 10px;
+  width: calc(100% - 26px);
+  max-width: 450px;
+  margin-bottom: 15px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.input-field[name="item"] {
+  background-color: var(--text-color);
+  color: var(--main-bg);
+  max-width: 100px;
+}
+
+/* 버튼 설정 */
+.daum-button,
+.submit-button {
+  background-color: var(--text-color);
+  color: var(--main-bg);
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  width: 100%;
+  max-width: 100px;
+  margin-bottom: 15px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 버튼 호버 효과 */
+.daum-button:hover,
+.submit-button:hover {
+  background-color: var(--secondary-bg);
+  color: var(--text-color);
+}
+
+/* 우편번호 팝업 설정 */
+.postcode-popup {
+  background-color: var(--main-bg);
+  border: 3px solid var(--border-color);
+  padding: 10px; 
+  position: absolute; 
+  z-index: 1000; 
+  max-width: 450px; 
+  left: 50%;
+  top: 50%; 
+  transform: translate(-50%, -50%);
+  margin-left: auto;
+  margin-right: auto;
+}
+

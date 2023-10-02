@@ -66,6 +66,21 @@ class Address extends Component {
       item,
     } = this.state;
 
+    // 누락된 필드를 확인합니다.
+    let missingField = null;
+    if (!startAddress) missingField = ['출발지', 'startAddress'];
+    else if (!endAddress) missingField = ['도착지', 'endAddress'];
+    else if (!name) missingField = ['이름', 'name'];
+    else if (!phone) missingField = ['전화번호', 'phone'];
+    else if (!item) missingField = ['품목', 'item'];
+
+    // 누락된 필드가 있다면 경고창을 표시합니다.
+    if (missingField) {
+      alert(missingField[0] + '를 입력해 주세요.');
+      document.getElementsByName(missingField[1])[0].focus(); // 누락된 필드로 포커스를 이동합니다.
+      return;
+    }
+
     try {
       // 주소 데이터와 사용자 정보를 서버로 전송
       const response = await SendAddress.send(
@@ -88,27 +103,24 @@ class Address extends Component {
         <div className="input-container">
           <input className="input-field" type="text" name="startAddress" placeholder="출발지" 
             value={this.state.startAddress} onChange={this.handleInputChange}/>
+          <input className="input-field" type="text" name="additionStartAddress" placeholder="추가 출발지"
+            value={this.state.additionStartAddress} onChange={this.handleInputChange}/>
           <button className="daum-button" onClick={() => this.togglePostcode("start")}>주소찾기</button>
-          <br />
           {this.state.openPostcodeStart && (
             <div className="postcode-popup">
               <DaumPostcode onComplete={(data) => this.fillAddress(data, "start")} autoClose={true}/>
             </div>
           )}
-          <input className="input-field" type="text" name="additionStartAddress" placeholder="추가 출발지"
-            value={this.state.additionStartAddress} onChange={this.handleInputChange}/>
-          <br />
           <input className="input-field" type="text" name="endAddress" placeholder="도착지"
             value={this.state.endAddress} onChange={this.handleInputChange}/>
-          <button className="daum-button" onClick={() => this.togglePostcode("end")}>주소찾기</button><br />
+          <input className="input-field" type="text" name="additionEndAddress" placeholder="추가 도착지"
+            value={this.state.additionEndAddress} onChange={this.handleInputChange}/>
+          <button className="daum-button" onClick={() => this.togglePostcode("end")}>주소찾기</button>
           {this.state.openPostcodeEnd && (
             <div className="postcode-popup">
               <DaumPostcode onComplete={(data) => this.fillAddress(data, "end")} autoClose={true}/>
             </div>
           )}
-          <input className="input-field" type="text" name="additionEndAddress" placeholder="추가 도착지"
-            value={this.state.additionEndAddress} onChange={this.handleInputChange}/>
-          <br />
           <input className="input-field" type="text" name="name" placeholder="이름"
             value={this.state.name} onChange={this.handleInputChange}/>
           <br />
