@@ -52,7 +52,7 @@
 .submit-button {
   background-color: var(--text-color);
   color: var(--main-bg);
-  border: none;
+  border: 3px solid var(--border-color);
   border-radius: 4px;
   padding: 10px 20px;
   width: 100%;
