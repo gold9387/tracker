@@ -1,0 +1,29 @@
+{
+  "name": "tracker",
+  "version": "1.0.0",
+  "type": "module",
+  "proxy": "http://localhost:9000",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "export JAVA_HOME=/Users/gimmingyu/.sdkman/candidates/java/11.0.20-zulu && ./gradlew bootRun",
+    "watch": "node_modules/.bin/webpack --watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.0",
+    "@babel/preset-env": "^7.22.20",
+    "@babel/preset-react": "^7.22.15",
+    "babel-loader": "^9.1.3",
+    "css-loader": "^6.8.1",
+    "style-loader": "^3.3.3",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
+  }
+}

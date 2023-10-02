@@ -1,0 +1,24 @@
+# server:
+#     port:
+
+# spring:
+#     mvc:
+#         view:
+#             prefix:
+#             suffix:
+#     datasource:
+#         url: 
+#         driver-class-name:
+#         username:
+#         password:
+#     h2:
+#         console:
+#             enabled:
+#     jpa:
+#         database-platform:
+#         show-sql:
+#         hibernate:
+#             ddl-auto: 
+#         properties:
+#             hibernate:
+#                 format-sql: 
