@@ -31,7 +31,7 @@ export default {
    * entry: 번들링을 시작할 초기 진입점입니다.
    */
   entry: {
-    home: "./HomePage.jsx",
+    home: "./App.jsx",
   },
 
   /**

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import AddressAPI from "api/address";
+import SendAddress from "api/send-address";
 
 class Address extends Component {
   constructor(props) {
@@ -27,7 +27,7 @@ class Address extends Component {
 
     try {
       // Address 클래스의 sendAddress 메서드를 사용하여 데이터를 전송합니다.
-      const response = await AddressAPI.sendAddress(startPoint, endPoint);
+      const response = await SendAddress.send(startPoint, endPoint);
       console.log("서버로부터의 응답:", response);
     } catch (error) {
       console.error("데이터를 전송하는 중에 오류가 발생했습니다:", error);
@@ -36,26 +36,29 @@ class Address extends Component {
 
   render() {
     return (
-      <div>
-        <div>배송 추적 서비스</div>
-        {/* 시작점 주소 입력 필드 */}
-        <input
-          type="text"
-          name="startPoint"
-          placeholder="출발지"
-          value={this.state.startPoint}
-          onChange={this.handleInputChange}
-        />
-        {/* 도착점 주소 입력 필드 */}
-        <input
-          type="text"
-          name="endPoint"
-          placeholder="도착지"
-          value={this.state.endPoint}
-          onChange={this.handleInputChange}
-        />
-        {/* 데이터 전송 버튼 */}
-        <button onClick={this.handleSubmit}>전송</button>
+      <div className="address-component">
+        <div className="title">배송 추적 서비스</div>
+        <div className="input-container">
+          <input
+            type="text"
+            name="startPoint"
+            placeholder="출발지"
+            value={this.state.startPoint}
+            onChange={this.handleInputChange}
+            className="input-field"
+          />
+          <input
+            type="text"
+            name="endPoint"
+            placeholder="도착지"
+            value={this.state.endPoint}
+            onChange={this.handleInputChange}
+            className="input-field"
+          />
+          <button onClick={this.handleSubmit} className="submit-button">
+            전송
+          </button>
+        </div>
       </div>
     );
   }
