@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import SendAddress from "api/send-address";
 import DaumPostcode from "react-daum-postcode";
 
-class Address extends Component {
+class Delivery extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -91,6 +91,7 @@ class Address extends Component {
         item
       );
       console.log("서버로부터의 응답:", response);
+      this.props.onShowDashboard();
     } catch (error) {
       console.error("데이터를 전송하는 중에 오류가 발생했습니다:", error);
     }
@@ -140,4 +141,4 @@ class Address extends Component {
   }
 }
 
-export default Address;
+export default Delivery;

@@ -9,8 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start-server": "export JAVA_HOME=/Users/gimmingyu/.sdkman/candidates/java/11.0.20-zulu && ./gradlew bootRun",
     "start-client": "node_modules/.bin/webpack --watch",
-    "start": "concurrently \"npm run start-server\" \"npm run start-client\"",
-    "restart": "concurrently \"npm run start-server -- --restart\" \"npm run start-client -- --restart\""
+    "start": "concurrently \"npm run start-server\" \"npm run start-client\""
   },
   "author": "",
   "license": "ISC",
