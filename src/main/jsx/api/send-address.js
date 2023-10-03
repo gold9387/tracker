@@ -9,17 +9,17 @@ export default class SendAddress {
    * @param {string} startAddress - 시작점의 주소
    * @param {string} endAddress - 도착점의 주소
    * @param {string} name - 이름
-   * @param {string} phone - 전화번호
+   * @param {string} productName - 상품명
    * @param {string} item - 물품
    * @returns {Promise} - 서버 응답을 담은 프로미스 객체
    */
-  static async send(startAddress, endAddress, name, phone, item) {
+  static async send(startAddress, endAddress, name, productName, item) {
     try {
       const response = await axios.post("http://localhost:9000/api/address", {
         startAddress,
         endAddress,
         name,
-        phone,
+        productName,
         item,
       });
       return response.data;

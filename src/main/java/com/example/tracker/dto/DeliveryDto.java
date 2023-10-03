@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddressDto {
+public class DeliveryDto {
     private String startAddress;
     private String endAddress;
     private String name;
-    private String phone;
+    private String productName;
     private String item;
 }

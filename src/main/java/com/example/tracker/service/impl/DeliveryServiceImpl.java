@@ -6,12 +6,14 @@ import java.nio.charset.StandardCharsets;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.example.tracker.service.AddressService;
+import com.example.tracker.dto.DeliveryDto;
+import com.example.tracker.entity.DeliveryEntity;
+import com.example.tracker.repository.DeliveryRepository;
+import com.example.tracker.service.DeliveryService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -19,17 +21,22 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class AddressServiceImpl implements AddressService {
+public class DeliveryServiceImpl implements DeliveryService {
 
-    @Value("${authorization.key}")
+    @Value("${rest-api.key}")
     String authorization_key;
 
+    private final DeliveryRepository deliveryRepository;
     private final CloseableHttpClient httpClient;
     private final ObjectMapper objectMapper;
 
-    public AddressServiceImpl() {
-        this.httpClient = HttpClients.createDefault();
-        this.objectMapper = new ObjectMapper();
+    public DeliveryServiceImpl(
+            DeliveryRepository deliveryRepository,
+            CloseableHttpClient httpClient,
+            ObjectMapper objectMapper) {
+        this.deliveryRepository = deliveryRepository;
+        this.httpClient = httpClient;
+        this.objectMapper = objectMapper;
     }
 
     /**
@@ -77,5 +84,17 @@ public class AddressServiceImpl implements AddressService {
             return null;
         }
         return coordinate;
+    }
+
+    @Override
+    public void saveDelivery(DeliveryDto deliveryDto) {
+        DeliveryEntity deliveryEntity = DeliveryEntity.builder()
+                .startAddress(deliveryDto.getStartAddress())
+                .endAddress(deliveryDto.getEndAddress())
+                .name(deliveryDto.getName())
+                .productName(deliveryDto.getProductName())
+                .item(deliveryDto.getItem())
+                .build();
+        deliveryRepository.save(deliveryEntity);
     }
 }

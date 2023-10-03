@@ -11,7 +11,7 @@ class Address extends Component {
       additionStartAddress: "",
       additionEndAddress: "",
       name: "",
-      phone: "",
+      productName: "",
       item: "",
       openPostcodeStart: false,
       openPostcodeEnd: false,
@@ -62,7 +62,7 @@ class Address extends Component {
       additionEndAddress,
       endAddress,
       name,
-      phone,
+      productName,
       item,
     } = this.state;
 
@@ -71,7 +71,7 @@ class Address extends Component {
     if (!startAddress) missingField = ['출발지', 'startAddress'];
     else if (!endAddress) missingField = ['도착지', 'endAddress'];
     else if (!name) missingField = ['이름', 'name'];
-    else if (!phone) missingField = ['전화번호', 'phone'];
+    else if (!productName) missingField = ['상품명', 'productName'];
     else if (!item) missingField = ['품목', 'item'];
 
     // 누락된 필드가 있다면 경고창을 표시합니다.
@@ -87,7 +87,7 @@ class Address extends Component {
         startAddress + " " + additionStartAddress,
         endAddress + " " + additionEndAddress,
         name,
-        phone,
+        productName,
         item
       );
       console.log("서버로부터의 응답:", response);
@@ -124,8 +124,8 @@ class Address extends Component {
           <input className="input-field" type="text" name="name" placeholder="이름"
             value={this.state.name} onChange={this.handleInputChange}/>
           <br />
-          <input className="input-field" type="text" name="phone" placeholder="전화번호"
-            value={this.state.phone} onChange={this.handleInputChange}/>
+          <input className="input-field" type="text" name="productName" placeholder="상품명"
+            value={this.state.productName} onChange={this.handleInputChange}/>
           <br />
           <select className="input-field" name="item" value={this.state.item} onChange={this.handleInputChange}>
             <option value="">품목 선택</option>

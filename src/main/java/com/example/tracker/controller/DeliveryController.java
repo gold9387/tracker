@@ -7,22 +7,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.tracker.dto.AddressDto;
-import com.example.tracker.service.AddressService;
+import com.example.tracker.dto.DeliveryDto;
+import com.example.tracker.service.DeliveryService;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-public class AddressController {
+public class DeliveryController {
 
-    private final AddressService addressService;
+    private final DeliveryService deliveryService;
     
     @PostMapping("/address")
-    public ResponseEntity<String> receiveAddress(@RequestBody AddressDto addressDto) {
-        Double[] startCoordinate = addressService.converter(addressDto.getStartAddress());
-        Double[] endCoordinate = addressService.converter(addressDto.getEndAddress());
+    public ResponseEntity<String> receiveAddress(@RequestBody DeliveryDto deliveryDto) {
+        deliveryService.saveDelivery(deliveryDto);
+        Double[] startCoordinate = deliveryService.converter(deliveryDto.getStartAddress());
+        Double[] endCoordinate = deliveryService.converter(deliveryDto.getEndAddress());
         System.out.println(startCoordinate[0]);
         System.out.println(startCoordinate[1]);
         System.out.println(endCoordinate[0]);
