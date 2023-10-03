@@ -21,4 +21,7 @@
 #             ddl-auto: 
 #         properties:
 #             hibernate:
-#                 format-sql: 
+#                 format-sql:
+
+# authorization:
+#     key:

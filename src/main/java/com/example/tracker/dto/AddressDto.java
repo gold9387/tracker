@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CoordinateData {
+public class AddressDto {
     private String startAddress;
     private String endAddress;
     private String name;
