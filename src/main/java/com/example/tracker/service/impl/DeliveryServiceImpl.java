@@ -24,7 +24,8 @@ import lombok.extern.slf4j.Slf4j;
 public class DeliveryServiceImpl implements DeliveryService {
 
     @Value("${rest-api.key}")
-    String authorization_key;
+    private String authorizationKey;
+    private static final int HTTP_OK = 200;
 
     private final DeliveryRepository deliveryRepository;
     private final CloseableHttpClient httpClient;
@@ -57,11 +58,11 @@ public class DeliveryServiceImpl implements DeliveryService {
 
             // HttpGet 객체를 생성하고 헤더를 설정합니다.
             HttpGet httpGet = new HttpGet(apiAddress);
-            httpGet.setHeader("Authorization", "KakaoAK " + authorization_key);
+            httpGet.setHeader("Authorization", "KakaoAK " + authorizationKey);
 
             // HTTP 요청을 실행합니다.
             try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
-                if (response.getStatusLine().getStatusCode() == 200) {
+                if (response.getStatusLine().getStatusCode() == HTTP_OK) {
                     String responseBody = EntityUtils.toString(response.getEntity());
                     JsonNode jsonNode = objectMapper.readTree(responseBody);
                     coordinate = new Double[2];
@@ -86,6 +87,11 @@ public class DeliveryServiceImpl implements DeliveryService {
         return coordinate;
     }
 
+    /**
+     * 배송 정보를 저장하는 메서드.
+     *
+     * @param deliveryDto 저장할 배송 정보의 DTO 객체
+     */
     @Override
     public void saveDelivery(DeliveryDto deliveryDto) {
         DeliveryEntity deliveryEntity = DeliveryEntity.builder()

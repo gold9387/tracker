@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
-public class HomeController {
+public class PageController {
     
     @GetMapping("/{name}")
     public String page(@PathVariable String name, Model model) {
