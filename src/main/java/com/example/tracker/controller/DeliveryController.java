@@ -15,12 +15,10 @@ import com.example.tracker.kakao.KakaoDirections;
 import com.example.tracker.service.DeliveryService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-@Slf4j
 public class DeliveryController {
 
     private final DeliveryService deliveryService;
@@ -33,13 +31,8 @@ public class DeliveryController {
         Double[] endCoordinate = deliveryService.converter(deliveryDto.getEndAddress());
         List<Info.Coordinate> coordinates = kakaoDirections.findRoute(startCoordinate[0], startCoordinate[1],
                 endCoordinate[0], endCoordinate[1]);
-
-        if (coordinates != null) {
-            log.info("------- 경로 좌표 출력 -------");
-            for (Info.Coordinate coordinate : coordinates) {
-                log.info("Name: {}, X: {}, Y: {}, Time: {}", coordinate.getName(), coordinate.getX(), coordinate.getY(),
-                        coordinate.getDuration());
-            }
+        if (coordinates != null && !coordinates.isEmpty()) {
+            deliveryService.saveCoordinates(coordinates);
         }
         return new ResponseEntity<>(coordinates, HttpStatus.OK);
     }

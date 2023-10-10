@@ -2,6 +2,10 @@ package com.example.tracker.service.impl;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -11,6 +15,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.example.tracker.dto.DeliveryDto;
+import com.example.tracker.dto.Info;
+import com.example.tracker.entity.CoordinateEntity;
 import com.example.tracker.entity.DeliveryEntity;
 import com.example.tracker.repository.DeliveryRepository;
 import com.example.tracker.service.DeliveryService;
@@ -30,14 +36,17 @@ public class DeliveryServiceImpl implements DeliveryService {
     private final DeliveryRepository deliveryRepository;
     private final CloseableHttpClient httpClient;
     private final ObjectMapper objectMapper;
+    private final EntityManager em;
 
     public DeliveryServiceImpl(
             DeliveryRepository deliveryRepository,
             CloseableHttpClient httpClient,
-            ObjectMapper objectMapper) {
+            ObjectMapper objectMapper,
+            EntityManager em) {
         this.deliveryRepository = deliveryRepository;
         this.httpClient = httpClient;
         this.objectMapper = objectMapper;
+        this.em = em;
     }
 
     /**
@@ -102,5 +111,32 @@ public class DeliveryServiceImpl implements DeliveryService {
                 .item(deliveryDto.getItem())
                 .build();
         deliveryRepository.save(deliveryEntity);
+    }
+
+    /**
+     * 대량의 경로 좌표 데이터를 데이터베이스에 저장합니다.
+     *
+     * @param coordinates 저장할 경로 좌표 리스트
+     */
+    @Transactional
+    public void saveCoordinates(List<Info.Coordinate> coordinates) {
+        int batchSize = 50;
+
+        for (int i = 0; i < coordinates.size(); i++) {
+            Info.Coordinate coordinate = coordinates.get(i);
+
+            CoordinateEntity entity = CoordinateEntity.builder()
+                    .name(coordinate.getName())
+                    .x(coordinate.getX())
+                    .y(coordinate.getY())
+                    .duration(coordinate.getDuration())
+                    .build();
+            em.persist(entity);
+
+            if (i % batchSize == 0 || i == coordinates.size() - 1) {
+                em.flush();
+                em.clear();
+            }
+        }
     }
 }
